@@ -26,9 +26,15 @@ def toros(obj):
     if obj.shape[1] == 3:
       return [Vector3(x[0], x[1], x[2]) for x in obj]
 
-def odomtostate(odom):
+def odomtonp(odom):
   return np.hstack((
     tonp(odom.pose.pose.position),
     tonp(odom.twist.twist.linear),
     tonp(odom.pose.pose.orientation).as_euler('ZYX')[::-1],
     tonp(odom.twist.twist.angular)))
+
+def imutonp(imu):
+  return np.hstack((
+    tonp(imu.orientation).as_euler('ZYX')[::-1],
+    tonp(imu.angular_velocity),
+    tonp(imu.linear_acceleration)))
