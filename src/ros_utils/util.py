@@ -1,8 +1,11 @@
 import numpy as np
 
+import rospy
+
 from scipy.spatial.transform import Rotation as R
 
 from geometry_msgs.msg import Vector3
+from quadrotor_msgs.msg import RPMCommand
 
 def tonp(obj):
   if type(obj) == list:
@@ -38,3 +41,9 @@ def imutonp(imu):
     tonp(imu.orientation).as_euler('ZYX')[::-1],
     tonp(imu.angular_velocity),
     tonp(imu.linear_acceleration)))
+
+def rpmstoros(rpms):
+    rpm_msg = RPMCommand()
+    for i in range(0, len(rpms)):
+        rpm_msg.motor_rpm[i] = int(rpms[i])
+    return rpm_msg
